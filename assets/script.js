@@ -1,15 +1,50 @@
 
+/**
+ * 
+ */
+let banner = document.querySelectorAll(".banner-img")
+let arrows = document.querySelectorAll(".arrow")
+let dots = document.querySelectorAll(".dot")
+let bannerImg = document.querySelectorAll(".banner-img")
 
-let Arrows = document.querySelectorAll(".arrow")
 
-for (let i = 0; i < Arrows.length; i++) {
-  let arrowDirection = Arrows[i]
+for (let i = 0; i < dots.length; i++) {
+        let dotswhite = dots[i]
+          dots[i].classList.add("dot_" + i)
+        dotswhite.addEventListener("click", (event) => {
+          dotSelected = event.target
+          dotSelectedWhite(Array.from(dots), dotSelected)
+        })
+}
 
-  arrowDirection.addEventListener("click", (event) =>  {
-    arrowTarget = event.target
-    console.log(`${arrowTarget.alt}`)
-  })
+
+
+for (let i = 0; i < arrows.length; i++) {
+    let arrowDirection = arrows[i]
+
+    arrowDirection.addEventListener("click", e => {
+      arrowTarget = e.target;
+      console.log(`${arrowTarget.alt}`)
+    })
 } 
+
+function dotSelectedWhite(dots, dotSelected) {
+    dots.filter((element, i) => {
+      if (dotSelected.classList.contains("dot_" + i)) {
+        return false
+      }
+      else {
+        return true
+      }
+    }).forEach(element => {
+      element.classList.remove("dot_selected")
+    });
+    dotSelected.classList.add("dot_selected")
+
+}
+
+
+
 
   
 
