@@ -2,6 +2,7 @@
 /**
  * 
  */
+let index = 0
 let banner = document.querySelectorAll(".banner-img")
 let arrows = document.querySelectorAll(".arrow")
 let dots = document.querySelectorAll(".dot")
@@ -9,43 +10,36 @@ let bannerImg = document.querySelectorAll(".banner-img")
 
 
 for (let i = 0; i < dots.length; i++) {
-        let dotswhite = dots[i]
-          dots[i].classList.add("dot_" + i)
-        dotswhite.addEventListener("click", (event) => {
-          dotSelected = event.target
-          dotSelectedWhite(Array.from(dots), dotSelected)
-        })
+  let dotswhite = dots[i]
+    dots[i].classList.add("dot_" + i)
+    dotswhite.addEventListener("click", (event) => {
+      dotSelected = event.target
+      dotSelectedWhite(Array.from(dots), dotSelected)
+      slideto(i);
+  })
 }
-
-
 
 for (let i = 0; i < arrows.length; i++) {
-    let arrowDirection = arrows[i]
+let arrowDirection = arrows[i]
 
-    arrowDirection.addEventListener("click", e => {
-      arrowTarget = e.target;
-    })
-} 
-
-
-    
+arrowDirection.addEventListener("click", e => {
+arrowTarget = e.target;
+})
+}  
 
 function dotSelectedWhite(dots, dotSelected) {
-    dots.filter((element, i) => {
-      if (dotSelected.classList.contains("dot_" + i)) {
-        return false
-      }
-      else {
-        return true
-      }
-    }).forEach(element => {
-      element.classList.remove("dot_selected")
-    });
-    dotSelected.classList.add("dot_selected")
-
+  dots.filter((element, i) => {
+    if (dotSelected.classList.contains("dot_" + i)) {
+      return false
+    }
+    else {
+      return true
+    }
+  }).forEach(element => {
+    element.classList.remove("dot_selected")
+  });
+  dotSelected.classList.add("dot_selected")
 }
-
-
 
 const slides = [
   {
@@ -66,15 +60,16 @@ const slides = [
   },
 ];
 
-
 /**
  * 
  * @param {number} index
  * @param {array} imageArray   
  * @returns {object}
  */
+
 function sliderNext(imageArray, index) {
-    let image = imageArray[index + 1]; 
+    let image = imageArray[index + 1];
+    console.log("next image"); 
     return image;
 }
 
@@ -86,3 +81,38 @@ function sliderPrevious(imageArray, index) {
   let image = imageArray[index - 1];
   return image
 }
+
+function dotSelectedWhite(dots, dotSelected) {
+  dots.filter((element, i) => {
+    if (dotSelected.classList.contains("dot_" + i)) {
+      return false
+    }
+    else {
+      return true
+    }
+  }).forEach(element => {
+    element.classList.remove("dot_selected")
+  });
+  dotSelected.classList.add("dot_selected")
+}
+/**
+ * 
+ * @param {number} index index de l'image séléctionné
+ * 
+ */
+function slideto(index) {
+  let currentIndex;
+  if (index >= 0 && index < slides.length) {
+    currentIndex = index;
+
+    slides.forEach((img, i) => {
+      if (i === currentIndex) {
+        bannerImg[0].src = img.url;
+        bannerImg[0].alt = img.tagLine;
+      }
+    });
+  }
+}
+
+
+
