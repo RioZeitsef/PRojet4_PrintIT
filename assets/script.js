@@ -7,6 +7,7 @@ let banner = document.querySelectorAll(".banner-img")
 let arrows = document.querySelectorAll(".arrow")
 let dots = document.querySelectorAll(".dot")
 let bannerImg = document.querySelectorAll(".banner-img")
+let tagline = document.getElementById("tagline")
 
 
 for (let i = 0; i < dots.length; i++) {
@@ -27,6 +28,27 @@ arrowTarget = e.target;
 })
 }  
 
+for (let i = 0; i < arrows.length; i++) {
+  let arrowDirection = arrows[i]
+
+  arrowDirection.addEventListener("click", e => {
+    if (e.target.classList.contains('arrow_right')) {
+      // Naviguer vers la droite
+      index = (index + 1) % slides.length;
+    } else if (e.target.classList.contains('arrow_left')) {
+      // Naviguer vers la gauche
+      index = (index - 1 + slides.length) % slides.length;
+    }
+
+    // Mettre à jour l'image et le tagline
+    bannerImg[0].src = slides[index].url;
+    tagline.innerHTML = slides[index].tagLine;
+
+    // Mettre à jour le dot sélectionné
+    dotSelectedWhite(Array.from(dots), dots[index]);
+  })
+}
+
 function dotSelectedWhite(dots, dotSelected) {
   dots.filter((element, i) => {
     if (dotSelected.classList.contains("dot_" + i)) {
@@ -39,6 +61,8 @@ function dotSelectedWhite(dots, dotSelected) {
     element.classList.remove("dot_selected")
   });
   dotSelected.classList.add("dot_selected")
+
+  taglineElement.innerHTML = slides[i].tagLine;
 }
 
 const slides = [
@@ -70,6 +94,7 @@ const slides = [
 function sliderNext(imageArray, index) {
     let image = imageArray[index + 1];
     console.log("next image"); 
+
     return image;
 }
 
@@ -79,6 +104,7 @@ function sliderPrevious(imageArray, index) {
     index = imageArray.length - 1;
   }
   let image = imageArray[index - 1];
+
   return image
 }
 
