@@ -7,7 +7,7 @@ let banner = document.querySelectorAll(".banner-img")
 let arrows = document.querySelectorAll(".arrow")
 let dots = document.querySelectorAll(".dot")
 let bannerImg = document.querySelectorAll(".banner-img")
-let tagline = document.getElementById("tagline")
+let tagline = document.querySelector('p')
 
 
 for (let i = 0; i < dots.length; i++) {
@@ -21,37 +21,32 @@ for (let i = 0; i < dots.length; i++) {
 }
 
 for (let i = 0; i < arrows.length; i++) {
-let arrowDirection = arrows[i]
-
-arrowDirection.addEventListener("click", e => {
-arrowTarget = e.target;
-})
-}  
-
-for (let i = 0; i < arrows.length; i++) {
   let arrowDirection = arrows[i]
 
   arrowDirection.addEventListener("click", e => {
     if (e.target.classList.contains('arrow_right')) {
       // Naviguer vers la droite
+      let nextImage = sliderNext(slides, index);
+      bannerImg[0].src = nextImage.url;
+      tagline.innerHTML = nextImage.tagLine;
       index = (index + 1) % slides.length;
     } else if (e.target.classList.contains('arrow_left')) {
       // Naviguer vers la gauche
+      let previousImage = sliderPrevious(slides, index);
+      bannerImg[0].src = previousImage.url;
+      tagline.innerHTML = previousImage.tagLine;
       index = (index - 1 + slides.length) % slides.length;
     }
-
-    // Mettre à jour l'image et le tagline
-    bannerImg[0].src = slides[index].url;
-    tagline.innerHTML = slides[index].tagLine;
 
     // Mettre à jour le dot sélectionné
     dotSelectedWhite(Array.from(dots), dots[index]);
   })
 }
 
+// fonction qui retire le bouton blanc lorsqu'on clique sur un autre
 function dotSelectedWhite(dots, dotSelected) {
-  dots.filter((element, i) => {
-    if (dotSelected.classList.contains("dot_" + i)) {
+  dots.filter((element, index) => {
+    if (dotSelected.classList.contains("dot_" + index)) {
       return false
     }
     else {
@@ -61,8 +56,7 @@ function dotSelectedWhite(dots, dotSelected) {
     element.classList.remove("dot_selected")
   });
   dotSelected.classList.add("dot_selected")
-
-  taglineElement.innerHTML = slides[i].tagLine;
+  tagline[i].classList.add("tagline")
 }
 
 const slides = [
@@ -91,23 +85,33 @@ const slides = [
  * @returns {object}
  */
 
+// fonction pour passer à l'image suivante
 function sliderNext(imageArray, index) {
-    let image = imageArray[index + 1];
-    console.log("next image"); 
+    if (index >= imageArray.length - 1) {
+      index = 0;
+    }
+    else {
+      index = index + 1; 
+    }
+    let image = imageArray[index];
 
     return image;
 }
 
-
+// fonction pour passer à l'image précédente
 function sliderPrevious(imageArray, index) {
   if (index === 0) {
     index = imageArray.length - 1;
   }
-  let image = imageArray[index - 1];
+  else {
+    index = index - 1;
+  }
+  let image = imageArray[index];
 
   return image
 }
 
+// fonction pour séléctionner les dots et les maintenir blancs
 function dotSelectedWhite(dots, dotSelected) {
   dots.filter((element, i) => {
     if (dotSelected.classList.contains("dot_" + i)) {
