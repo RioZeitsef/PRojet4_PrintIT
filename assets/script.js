@@ -9,7 +9,7 @@ let dots = document.querySelectorAll(".dot")
 let bannerImg = document.querySelectorAll(".banner-img")
 let tagline = document.querySelector('p')
 
-
+// fonction pour naviguer avec les dots
 for (let i = 0; i < dots.length; i++) {
   let dotswhite = dots[i]
     dots[i].classList.add("dot_" + i)
@@ -20,6 +20,7 @@ for (let i = 0; i < dots.length; i++) {
   })
 }
 
+// fonction pour naviguer avec les flèches
 for (let i = 0; i < arrows.length; i++) {
   let arrowDirection = arrows[i]
 
@@ -27,37 +28,34 @@ for (let i = 0; i < arrows.length; i++) {
     if (e.target.classList.contains('arrow_right')) {
       // Naviguer vers la droite
       let nextImage = sliderNext(slides, index);
-      bannerImg[0].src = nextImage.url;
-      tagline.innerHTML = nextImage.tagLine;
-      index = (index + 1) % slides.length;
+      index = slides.indexOf(nextImage);
+      slideto(index);
     } else if (e.target.classList.contains('arrow_left')) {
       // Naviguer vers la gauche
       let previousImage = sliderPrevious(slides, index);
-      bannerImg[0].src = previousImage.url;
-      tagline.innerHTML = previousImage.tagLine;
-      index = (index - 1 + slides.length) % slides.length;
+      index = slides.indexOf(previousImage);
+      slideto(index);
     }
-
-    // Mettre à jour le dot sélectionné
-    dotSelectedWhite(Array.from(dots), dots[index]);
+    dotSelectedWhite(Array.from(dots), dots[index])
   })
 }
 
-// fonction qui retire le bouton blanc lorsqu'on clique sur un autre
+// fonction pour séléctionner les dots et les maintenir blancs
 function dotSelectedWhite(dots, dotSelected) {
-  dots.filter((element, index) => {
-    if (dotSelected.classList.contains("dot_" + index)) {
+  dots.filter((element, i) => {
+    if (dotSelected.classList.contains("dot_" + i)) {
       return false
-    }
-    else {
+    } else {
       return true
     }
-  }).forEach(element => {
-    element.classList.remove("dot_selected")
-  });
+  }).
+    forEach(element => {
+      element.classList.remove("dot_selected")
+    });
   dotSelected.classList.add("dot_selected")
-  tagline[i].classList.add("tagline")
 }
+
+
 
 const slides = [
   {
@@ -111,20 +109,6 @@ function sliderPrevious(imageArray, index) {
   return image
 }
 
-// fonction pour séléctionner les dots et les maintenir blancs
-function dotSelectedWhite(dots, dotSelected) {
-  dots.filter((element, i) => {
-    if (dotSelected.classList.contains("dot_" + i)) {
-      return false
-    }
-    else {
-      return true
-    }
-  }).forEach(element => {
-    element.classList.remove("dot_selected")
-  });
-  dotSelected.classList.add("dot_selected")
-}
 /**
  * 
  * @param {number} index index de l'image séléctionné
@@ -137,8 +121,8 @@ function slideto(index) {
 
     slides.forEach((img, i) => {
       if (i === currentIndex) {
-        bannerImg[0].src = img.url;
-        bannerImg[0].alt = img.tagLine;
+        bannerImg[0].src = slides[index].url;
+        tagline.innerHTML = slides[index].tagLine;
       }
     });
   }
